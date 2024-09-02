@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.27)
 project(chk_win)
 
 # Third party dependencies
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/LinkCommon.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/LinkGLFW.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/LinkGLAD.cmake)
 
@@ -16,5 +17,6 @@ add_library(chk_win ${chk_win_src} ${chk_win_hdr})
 target_compile_features(chk_win PUBLIC c_std_11)
 target_include_directories(chk_win PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
+link_chk_common(chk_win PUBLIC origin/main)
 link_glfw(chk_win PRIVATE origin/master)
 link_glad(chk_win PUBLIC origin/glad2)

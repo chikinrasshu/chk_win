@@ -1,34 +1,32 @@
 #pragma once
 
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
+#include <chk_common.h>
 
-struct chk_win;
-#define CHK_WIN_CALLBACK(Name) void Name(struct chk_win* win, void* user_ptr)
+typedef struct chk_win chk_win;
+#define CHK_WIN_CALLBACK(Name) void Name(chk_win* win, void* user_ptr)
 typedef CHK_WIN_CALLBACK(chk_win_callback);
 
 typedef struct chk_win_flags {
-    uint32_t is_running    : 1;
-    uint32_t is_fullscreen : 1;
-    uint32_t is_minimized  : 1;
-    uint32_t is_maximized  : 1;
-    uint32_t is_focused    : 1;
-    uint32_t is_active     : 1;
+    u32 is_running    : 1;
+    u32 is_fullscreen : 1;
+    u32 is_minimized  : 1;
+    u32 is_maximized  : 1;
+    u32 is_focused    : 1;
+    u32 is_active     : 1;
 } chk_win_flags;
 
 typedef struct chk_win_state {
-    uint32_t pos_changed        : 1;
-    uint32_t size_changed       : 1;
-    uint32_t fb_changed         : 1;
-    uint32_t dpi_changed        : 1;
-    uint32_t cursor_pos_changed : 1;
+    u32 pos_changed        : 1;
+    u32 size_changed       : 1;
+    u32 fb_changed         : 1;
+    u32 dpi_changed        : 1;
+    u32 cursor_pos_changed : 1;
 
-    uint32_t fullscreen_changed : 1;
-    uint32_t minimized_changed  : 1;
-    uint32_t maximized_changed  : 1;
-    uint32_t focus_changed      : 1;
-    uint32_t active_changed     : 1;
+    u32 fullscreen_changed : 1;
+    u32 minimized_changed  : 1;
+    u32 maximized_changed  : 1;
+    u32 focus_changed      : 1;
+    u32 active_changed     : 1;
 } chk_win_state;
 
 typedef struct chk_win_callbacks {
@@ -44,19 +42,19 @@ typedef struct chk_win {
     chk_win_state     state;
     chk_win_callbacks callbacks;
 
-    int32_t x, y;
-    int32_t w, h;
-    int32_t fb_w, fb_h;
-    double  dpi_x, dpi_y;
-    double  cur_x, cur_y;
-    double  dt, ct, lt;
+    s32 x, y;
+    s32 w, h;
+    s32 fb_w, fb_h;
+    f64 dpi_x, dpi_y;
+    f64 cur_x, cur_y;
+    f64 dt, ct, lt;
 
     void* _impl;
 } chk_win;
 
 typedef struct chk_win_config {
-    int32_t     x, y;
-    int32_t     w, h;
+    s32         x, y;
+    s32         w, h;
     const char* caption;
 
     chk_win_callbacks callbacks;

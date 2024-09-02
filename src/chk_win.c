@@ -8,20 +8,20 @@
 #include <assert.h>
 #include <stdio.h>
 
-void chk_win_cb_on_error(int32_t code, const char* msg);
+void chk_win_cb_on_error(s32 code, const char* msg);
 void chk_win_cb_on_close(GLFWwindow* impl);
 void chk_win_cb_on_frame(GLFWwindow* impl);
-void chk_win_cb_on_move(GLFWwindow* impl, int32_t x, int32_t y);
-void chk_win_cb_on_size(GLFWwindow* impl, int32_t w, int32_t h);
-void chk_win_cb_on_fb_size(GLFWwindow* impl, int32_t w, int32_t h);
-void chk_win_cb_on_dpi(GLFWwindow* impl, float x, float y);
-void chk_win_cb_on_minimize(GLFWwindow* impl, int32_t v);
-void chk_win_cb_on_maximize(GLFWwindow* impl, int32_t v);
-void chk_win_cb_on_focus(GLFWwindow* impl, int32_t v);
-void chk_win_cb_on_active(GLFWwindow* impl, int32_t v);
-void chk_win_cb_on_mouse_pos(GLFWwindow* impl, double x, double y);
+void chk_win_cb_on_move(GLFWwindow* impl, s32 x, s32 y);
+void chk_win_cb_on_size(GLFWwindow* impl, s32 w, s32 h);
+void chk_win_cb_on_fb_size(GLFWwindow* impl, s32 w, s32 h);
+void chk_win_cb_on_dpi(GLFWwindow* impl, f32 x, f32 y);
+void chk_win_cb_on_minimize(GLFWwindow* impl, s32 v);
+void chk_win_cb_on_maximize(GLFWwindow* impl, s32 v);
+void chk_win_cb_on_focus(GLFWwindow* impl, s32 v);
+void chk_win_cb_on_active(GLFWwindow* impl, s32 v);
+void chk_win_cb_on_mouse_pos(GLFWwindow* impl, f64 x, f64 y);
 
-static int32_t g_win_count = 0;
+static s32 g_win_count = 0;
 
 chk_win_config chk_win_default_config() {
     chk_win_config config = {0};
@@ -100,7 +100,7 @@ bool chk_win_create(chk_win* win, chk_win_config config) {
     glfwGetWindowSize(win->_impl, &win->w, &win->h);
     glfwGetFramebufferSize(win->_impl, &win->fb_w, &win->fb_h);
 
-    float tmp_af, tmp_bf;
+    f32 tmp_af, tmp_bf;
     glfwGetWindowContentScale(win->_impl, &tmp_af, &tmp_bf);
     glfwGetCursorPos(win->_impl, &win->cur_x, &win->cur_y);
 
@@ -171,7 +171,7 @@ bool chk_win_step(chk_win* win, bool process_events) {
         if (!win) { return; }                                                  \
     } while (0)
 
-void chk_win_cb_on_error(int32_t code, const char* msg) {
+void chk_win_cb_on_error(s32 code, const char* msg) {
     printf("GLFW error(%d): %s\n", code, msg);
 }
 
@@ -185,55 +185,55 @@ void chk_win_cb_on_frame(GLFWwindow* impl) {
     chk_win_step(win, false);
 }
 
-void chk_win_cb_on_move(GLFWwindow* impl, int32_t x, int32_t y) {
+void chk_win_cb_on_move(GLFWwindow* impl, s32 x, s32 y) {
     CHK_GET_WIN;
     win->x = x, win->y = y;
     win->state.pos_changed = true;
 }
 
-void chk_win_cb_on_size(GLFWwindow* impl, int32_t w, int32_t h) {
+void chk_win_cb_on_size(GLFWwindow* impl, s32 w, s32 h) {
     CHK_GET_WIN;
     win->w = w, win->h = h;
     win->state.size_changed = true;
 }
 
-void chk_win_cb_on_fb_size(GLFWwindow* impl, int32_t w, int32_t h) {
+void chk_win_cb_on_fb_size(GLFWwindow* impl, s32 w, s32 h) {
     CHK_GET_WIN;
     win->fb_w = w, win->fb_h = h;
     win->state.fb_changed = true;
 }
 
-void chk_win_cb_on_dpi(GLFWwindow* impl, float x, float y) {
+void chk_win_cb_on_dpi(GLFWwindow* impl, f32 x, f32 y) {
     CHK_GET_WIN;
-    win->dpi_x = (double)x, win->dpi_y = (double)y;
+    win->dpi_x = (f64)x, win->dpi_y = (f64)y;
     win->state.dpi_changed = true;
 }
 
-void chk_win_cb_on_minimize(GLFWwindow* impl, int32_t v) {
+void chk_win_cb_on_minimize(GLFWwindow* impl, s32 v) {
     CHK_GET_WIN;
     win->flags.is_minimized      = (bool)v;
     win->state.minimized_changed = true;
 }
 
-void chk_win_cb_on_maximize(GLFWwindow* impl, int32_t v) {
+void chk_win_cb_on_maximize(GLFWwindow* impl, s32 v) {
     CHK_GET_WIN;
     win->flags.is_maximized      = (bool)v;
     win->state.maximized_changed = true;
 }
 
-void chk_win_cb_on_focus(GLFWwindow* impl, int32_t v) {
+void chk_win_cb_on_focus(GLFWwindow* impl, s32 v) {
     CHK_GET_WIN;
     win->flags.is_focused    = (bool)v;
     win->state.focus_changed = true;
 }
 
-void chk_win_cb_on_active(GLFWwindow* impl, int32_t v) {
+void chk_win_cb_on_active(GLFWwindow* impl, s32 v) {
     CHK_GET_WIN;
     win->flags.is_active      = (bool)v;
     win->state.active_changed = true;
 }
 
-void chk_win_cb_on_mouse_pos(GLFWwindow* impl, double x, double y) {
+void chk_win_cb_on_mouse_pos(GLFWwindow* impl, f64 x, f64 y) {
     CHK_GET_WIN;
     win->cur_x = x, win->cur_y = y;
     win->state.cursor_pos_changed = true;
